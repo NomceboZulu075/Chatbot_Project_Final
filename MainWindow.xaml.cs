@@ -34,6 +34,22 @@ namespace Chatbot_Project_FinalPart3
                 return $"{status} {Title} - {Description}{reminder}";
             }//end of ToString method
         }//end of taskInformation method
+
+        //A List to store all inforamtion of the tasks
+        private List<taskInformation> cyberTasks = new List<taskInformation>();
+
+        // Activity log for tracking actions
+        private List<string> activityLog = new List<string>();
+
+        // Quiz System Variables
+        public class QuizQuestion
+        {
+            public string Question { get; set; }
+            public List<string> Options { get; set; }
+            public int CorrectAnswer { get; set; }
+            public string Explanation { get; set; }
+            public bool IsTrueFalse { get; set; }
+        }//end of quizquestion class
         public MainWindow()
         {
             InitializeComponent();
