@@ -83,9 +83,59 @@ namespace Chatbot_Project_FinalPart3
         private List<ActivityLogEntry> enhancedActivityLog = new List<ActivityLogEntry>();
         private const int MAX_LOG_DISPLAY = 10; // Show last 10 actions by default
 
+
         public MainWindow()
         {
             InitializeComponent();
+            InitializeQuizQuestions(); // Initialize quiz system!
+            InitializeNLPComponents(); // Initialize NLP system!
+            AddToActivityLog("Cybersecurity Awareness Chatbot started");
+            UpdateStatistics();
+            ShowWelcomeMessage();
+        }//end of MainWindow constructor
+
+        // NLP ENHANCEMENT: Initialize Natural Language Processing components
+        // This method sets up dictionaries to help understand user intent better
+        private void InitializeNLPComponents()
+        {
+
+            // Intent keywords - different ways users might express the same intent
+            intentKeywords = new Dictionary<string, List<string>>
+            {
+                ["add_task"] = new List<string>
+                {
+                    "add task", "create task", "new task", "make task", "set task",
+                    "add reminder", "create reminder", "remind me", "set reminder",
+                    "help me remember", "schedule", "plan", "organize", "todo",
+                    "i need to", "i should", "i want to", "can you remind"
+                },
+                ["show_tasks"] = new List<string>
+                {
+                    "show tasks", "view tasks", "list tasks", "my tasks", "see tasks",
+                    "what tasks", "task list", "display tasks", "current tasks",
+                    "show my list", "what do i need to do", "whats on my list"
+                },
+                ["start_quiz"] = new List<string>
+                {
+                    "start quiz", "take quiz", "quiz me", "begin quiz", "test me",
+                    "challenge me", "game", "play", "questions", "test knowledge",
+                    "mini-game", "cybersecurity test", "security quiz"
+                },
+                ["help"] = new List<string>
+                {
+                    "help", "commands", "what can you do", "how to use", "instructions",
+                    "guide me", "assist", "support", "tutorial", "show me"
+                },
+                ["activity_log"] = new List<string>
+                {
+                    "activity log", "what have you done", "show log", "recent actions",
+                    "history", "summary", "what happened", "actions taken", "log history"
+                }
+            };
+
+
+
+
+
         }
-    }
 }
