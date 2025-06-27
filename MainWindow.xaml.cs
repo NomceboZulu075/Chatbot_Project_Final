@@ -993,6 +993,83 @@ namespace Chatbot_Project_FinalPart3
             AddToActivityLog($"Quiz completed - Score: {quizScore}/{quizQuestions.Count} ({percentage}%)");
         }//end of end quiz method
 
+        // Show quiz statistics
+        private void ShowQuizStatistics()
+        {
+            if (totalQuizzesTaken == 0)
+            {
+                AddChatbotResponse(" No quizzes taken yet! Type 'start quiz' to begin! ");
+                return;
+            }
+
+            string stats = $"🏆 Your Quiz Statistics:\n";
+            stats += $"📝 Total Quizzes Taken: {totalQuizzesTaken}\n";
+            stats += $"🥇 Best Score: {bestScore}%\n";
+
+            // Adding achievement badges - fun feature
+            if (bestScore >= 90)
+                stats += "🏅 Achievement: Cybersecurity Expert!\n";
+            else if (bestScore >= 80)
+                stats += "🥈 Achievement: Security Specialist!\n";
+            else if (bestScore >= 70)
+                stats += "🥉 Achievement: Safety Student!\n";
+
+            if (totalQuizzesTaken >= 5)
+                stats += " Achievement: Quiz Master!\n";
+
+            stats += "\n Keep practicing to improve your cybersecurity knowledge! 💡";
+
+            AddChatbotResponse(stats);
+        }//end of mehod show quiz statistics
+
+        // A method to handle quitting quiz
+
+        private void HandleQuitQuiz()
+        {
+            if (!isQuizActive)
+            {
+                AddChatbotResponse("No quiz is currently active.");
+                return;
+            }
+
+            isQuizActive = false;
+            currentQuestionIndex = 0;
+            quizScore = 0;
+
+            AddChatbotResponse("❌ Quiz cancelled. Type 'start quiz' when you're ready to try again!");
+            AddToActivityLog("Quiz cancelled by user");
+        }//end of handle quit quiz 
+
+        // A method to handle general cybersecurity queries
+        private void HandleGeneralQuery(string input)
+        {
+            string lowerInput = input.ToLower();
+
+            if (lowerInput.Contains("phishing"))
+            {
+                AddChatbotResponse("Phishing is a cyber attack where criminals impersonate legitimate organizations to steal sensitive information. Always verify sender identity and never click suspicious links!");
+            }
+            else if (lowerInput.Contains("strong password"))
+            {
+                AddChatbotResponse("A strong password should be at least 12 characters long, include uppercase and lowercase letters, numbers, and symbols. Never reuse passwords across accounts!");
+            }
+            else if (lowerInput.Contains("malware"))
+            {
+                AddChatbotResponse("Malware is malicious software designed to harm your computer. Keep your antivirus updated, avoid suspicious downloads, and regularly scan your system!");
+            }
+            else if (lowerInput.Contains("social engineering"))
+            {
+                AddChatbotResponse("Social engineering involves manipulating people to divulge confidential information. Be cautious of unsolicited requests for personal information, even if they seem legitimate!");
+            }
+            else
+            {
+                AddChatbotResponse("I'm here to help with cybersecurity awareness! You can ask me about phishing, passwords, malware, or use commands like 'add task' or 'show tasks'. Type 'help' for more commands.");
+            }
+
+            AddToActivityLog($"Responded to query about: {input}");
+        }//end of handle general query method
+
+
 
 
 
