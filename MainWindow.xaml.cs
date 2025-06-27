@@ -876,6 +876,123 @@ namespace Chatbot_Project_FinalPart3
             }
         }//end of show current question method
 
+        // Handle quiz answers
+        private void HandleQuizAnswer(string input)
+        {
+            // Check if user wants to quit the quiz
+            string lowerInput = input.ToLower().Trim();
+            if (lowerInput.Contains("quit quiz") || lowerInput.Contains("stop quiz") ||
+                lowerInput.Contains("end quiz") || lowerInput.Contains("exit quiz"))
+            {
+                isQuizActive = false;
+                AddChatbotResponse(" Quiz ended! You can start a new quiz anytime by typing 'start quiz'.");
+                AddToActivityLog("Quiz ended by user request");
+                return;
+            }
+
+            var question = quizQuestions[currentQuestionIndex];
+            int userAnswer = -1;
+
+            // Parse user input
+            string cleanInput = input.Trim().ToLower();
+
+            if (cleanInput == "1" || cleanInput == "a")
+                userAnswer = 0;
+            else if (cleanInput == "2" || cleanInput == "b")
+                userAnswer = 1;
+            else if (cleanInput == "3" || cleanInput == "c")
+                userAnswer = 2;
+            else if (cleanInput == "4" || cleanInput == "d")
+                userAnswer = 3;
+            else
+            {
+                AddChatbotResponse(" Please answer with 1, 2, 3, 4 or A, B, C, D");
+                return;
+            }
+
+            // using an if statement to validate answer range
+            if (userAnswer >= question.Options.Count)
+            {
+                AddChatbotResponse($"❌ Invalid option! Please choose 1-{question.Options.Count}");
+                return;
+            }
+
+            // Checking if the answer is correct
+            bool isCorrect = userAnswer == question.CorrectAnswer;
+            if (isCorrect)
+            {
+                quizScore++;
+                AddChatbotResponse($"✅ {question.Explanation}");
+
+                // Fun encouragement messages
+                string[] encouragements = { "Amazing! 🌟", "You're on fire! 🔥", "Brilliant! 💡", "Fantastic! 🎉", "Perfect! 👌" };
+                var random = new Random();
+                AddChatbotResponse(encouragements[random.Next(encouragements.Length)]);
+            }
+            else
+            {
+                AddChatbotResponse($"❌ Incorrect. The right answer was: {question.Options[question.CorrectAnswer]}");
+                AddChatbotResponse(question.Explanation.Replace(" Correct!", "💡 Remember:"));
+            }
+
+            currentQuestionIndex++;
+
+            // Small delay before next question
+            AddChatbotResponse("─────────────────────");
+            ShowCurrentQuestion();
+        }//end of handle quiz answer method
+
+        // End the quiz and show results
+        private void EndQuiz()
+        {
+            isQuizActive = false;
+            int percentage = (quizScore * 100) / quizQuestions.Count;
+
+            // Update best score
+            if (percentage > bestScore)
+            {
+                bestScore = percentage;
+                AddChatbotResponse("🏆 NEW PERSONAL BEST! 🏆");
+            }
+
+            AddToEnhancedActivityLog($"Quiz completed: {quizScore}/{quizQuestions.Count} correct ({percentage}%)",
+            "QUIZ_COMPLETED", $"Best score: {bestScore}%");
+
+            AddChatbotResponse(" Quiz Complete! ");
+            AddChatbotResponse($"📊 Your Score: {quizScore}/{quizQuestions.Count} ({percentage}%)");
+
+            // Fun feedback based on score the user has received
+            if (percentage >= 90)
+            {
+                AddChatbotResponse(" OUTSTANDING! 🌟 You're a cybersecurity expert!");
+                AddChatbotResponse("You could teach others about online safety! 🛡");
+            }
+            else if (percentage >= 80)
+            {
+                AddChatbotResponse(" EXCELLENT! 🌟 You have strong cybersecurity knowledge! 💪");
+                AddChatbotResponse(" Keep up the great security habits! 🛡");
+            }
+            else if (percentage >= 70)
+            {
+                AddChatbotResponse(" GOOD JOB! 👍 You know the basics well! ");
+                AddChatbotResponse(" A little more practice and you'll be an expert! 🛡️");
+            }
+            else if (percentage >= 60)
+            {
+                AddChatbotResponse(" FAIR! You're on the right track! ");
+                AddChatbotResponse(" Consider reviewing cybersecurity best practices! 🛡️");
+            }
+            else
+            {
+                AddChatbotResponse(" KEEP LEARNING! Cybersecurity is important! ⚠️");
+                AddChatbotResponse(" Try reading about phishing, passwords, and safe browsing! 🛡️");
+            }
+
+            AddChatbotResponse(" Type 'start quiz' to try again or 'quiz stats' to see your progress!");
+
+            AddToActivityLog($"Quiz completed - Score: {quizScore}/{quizQuestions.Count} ({percentage}%)");
+        }//end of end quiz method
+
 
 
 
