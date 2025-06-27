@@ -1284,6 +1284,54 @@ namespace Chatbot_Project_FinalPart3
             return null;
         }//end of extract time from NLP method
 
+        // Enhanced method to provide more natural responses based on detected intent
+        private void HandleNaturalLanguageResponse(string intent, string originalInput)
+        {
+            nlpInteractionCount++; // Track NLP usage 
+
+            //Track NLP interactions
+            AddToEnhancedActivityLog($"NLP processed intent: {intent}", "NLP_INTERACTION", $"Input: '{originalInput}'");
+
+            switch (intent)
+            {
+                case "ADD_TASK":
+                    HandleNaturalTaskAddition(originalInput, false);
+                    break;
+                case "ADD_TASK_WITH_REMINDER":
+                    HandleNaturalTaskAddition(originalInput, true);
+                    break;
+                case "START_QUIZ":
+                    AddChatbotResponse("I understand you'd like to test your knowledge! Starting the cybersecurity quiz now...");
+                    AddToEnhancedActivityLog("Quiz started via NLP", "QUIZ_STARTED", "Natural language command");
+                    StartQuiz();
+                    break;
+                case "VIEW_TASKS":
+                    AddChatbotResponse("Let me show you what's on your cybersecurity task list:");
+                    HandleShowTasks();
+                    break;
+                case "SHOW_SUMMARY":
+                case "SHOW_ACTIVITY_LOG":
+                    HandleShowActivityLog();
+                    break;
+                case "SHOW_FULL_LOG":
+                    HandleShowFullActivityLog();
+                    break;
+                case "HELP":
+                    AddChatbotResponse("I'd be happy to help! Here's what I can do for you:");
+                    HandleHelp();
+                    break;
+                case "QUIT_QUIZ":
+                    HandleQuitQuiz();
+                    break;
+                case "CYBERSECURITY_QUERY":
+                    HandleCyberSecurityEducation(originalInput);
+                    break;
+                default:
+                    HandleGeneralQuery(originalInput);
+                    break;
+            }
+        }//end of handle natural language response method
+
 
 
 
