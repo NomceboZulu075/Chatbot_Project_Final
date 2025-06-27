@@ -50,6 +50,27 @@ namespace Chatbot_Project_FinalPart3
             public string Explanation { get; set; }
             public bool IsTrueFalse { get; set; }
         }//end of quizquestion class
+
+        // Activity Log Entry Class 
+        public class ActivityLogEntry
+        {
+            public DateTime Timestamp { get; set; }
+            public string Action { get; set; }
+            public string Category { get; set; }
+            public string Details { get; set; }
+
+            public override string ToString()
+            {
+                return $"{Timestamp:MM/dd/yyyy HH:mm} - {Action}";
+            }
+        }
+
+        private List<QuizQuestion> quizQuestions = new List<QuizQuestion>();
+        private int currentQuestionIndex = 0;
+        private int quizScore = 0;
+        private bool isQuizActive = false;
+        private int totalQuizzesTaken = 0;
+        private int bestScore = 0;
         public MainWindow()
         {
             InitializeComponent();
