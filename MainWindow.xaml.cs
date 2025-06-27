@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -325,6 +326,113 @@ namespace Chatbot_Project_FinalPart3
                 activityLog.RemoveAt(0);
             }//end of if statement
         }//end of add activity log method
+
+        // ENHANCED METHOD: Add detailed activity log entries
+        private void AddToEnhancedActivityLog(string action, string category, string details = "")
+        {
+            var logEntry = new ActivityLogEntry
+            {
+                Timestamp = DateTime.Now,
+                Action = action,
+                Category = category,
+                Details = details
+            };
+
+            enhancedActivityLog.Add(logEntry);
+
+            // Keep only last 50 entries for memory management
+            if (enhancedActivityLog.Count > 50)
+            {
+                enhancedActivityLog.RemoveAt(0);
+            }
+
+            // Also add to the simple activity log for backward compatibility
+            AddToActivityLog(action);
+        }//end of add to enhanced activity log method
+
+        // A method to handle showing detailed activity log
+        private void HandleShowDetailedActivityLog()
+        {
+            if (enhancedActivityLog.Count == 0)
+            {
+                AddChatbotResponse(" No recent activities to show. Start using the chatbot to build your activity history!");
+                return;
+            }
+
+            AddChatbotResponse(" Here's a summary of your recent cybersecurity activities:");
+
+            // Show last 10 activities by default
+            var recentActivities = enhancedActivityLog.TakeLast(MAX_LOG_DISPLAY).ToList();
+
+            for (int i = 0; i < recentActivities.Count; i++)
+            {
+                var entry = recentActivities[i];
+                string emoji = GetCategoryEmoji(entry.Category);
+                string details = !string.IsNullOrEmpty(entry.Details) ? $" - {entry.Details}" : "";
+
+                AddChatbotResponse($"{emoji} {i + 1}. {entry.Action}{details}");
+            }
+
+            // Show statistics
+            AddChatbotResponse($"");
+            AddChatbotResponse($" Activity Summary:");
+            AddChatbotResponse($"   • Total actions logged: {enhancedActivityLog.Count}");
+            AddChatbotResponse($"   • Tasks created: {enhancedActivityLog.Count(e => e.Category == "TASK_ADDED")}");
+            AddChatbotResponse($"   • Quizzes taken: {enhancedActivityLog.Count(e => e.Category == "QUIZ_COMPLETED")}");
+            AddChatbotResponse($"   • NLP interactions: {enhancedActivityLog.Count(e => e.Category == "NLP_INTERACTION")}");
+
+            if (enhancedActivityLog.Count > MAX_LOG_DISPLAY)
+            {
+                AddChatbotResponse($"💡 Showing last {MAX_LOG_DISPLAY} activities. Type 'show full log' for complete history.");
+            }
+        }//end of handle show detailed activity log method
+
+        // A method to show full activity log
+        private void HandleShowFullActivityLog()
+        {
+            if (enhancedActivityLog.Count == 0)
+            {
+                AddChatbotResponse(" No activities recorded yet. 📝");
+                return;
+            }
+
+            AddChatbotResponse($" Complete Activity History ({enhancedActivityLog.Count} total activities):");
+
+            // Group activities by category for better organization
+            var grouped = enhancedActivityLog.GroupBy(e => e.Category);
+
+            foreach (var group in grouped)
+            {
+                string categoryName = GetCategoryDisplayName(group.Key);
+                string emoji = GetCategoryEmoji(group.Key);
+                AddChatbotResponse($"");
+                AddChatbotResponse($"{emoji} {categoryName} ({group.Count()} activities):");
+
+                foreach (var entry in group.TakeLast(5)) // Show last 5 per category
+                {
+                    string details = !string.IsNullOrEmpty(entry.Details) ? $" - {entry.Details}" : "";
+                    AddChatbotResponse($"   • {entry.Timestamp:MM/dd HH:mm} - {entry.Action}{details}");
+                }
+            }
+        }//end of handle full activity log method
+
+        // A helper method to get emoji for activity category(fun feature!)
+        private string GetCategoryEmoji(string category)
+        {
+            return category switch
+            {
+                "TASK_ADDED" => "✅",
+                "TASK_COMPLETED" => "🎉",
+                "TASK_UPDATED" => "🔄",
+                "REMINDER_SET" => "⏰",
+                "QUIZ_STARTED" => "🎯",
+                "QUIZ_COMPLETED" => "🏆",
+                "NLP_INTERACTION" => "🧠",
+                "CYBERSECURITY_EDUCATION" => "🛡️",
+                "SYSTEM" => "⚙️",
+                _ => "📝"
+            };
+        }//end of get category emoji method
 
 
 
