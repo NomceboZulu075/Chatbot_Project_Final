@@ -71,6 +71,18 @@ namespace Chatbot_Project_FinalPart3
         private bool isQuizActive = false;
         private int totalQuizzesTaken = 0;
         private int bestScore = 0;
+
+        // NLP SIMULATION ENHANCEMENT - Advanced Natural Language Processing Variables
+        // These dictionaries help the chatbot understand different ways users express the same intent
+
+        private Dictionary<string, List<string>> intentKeywords;
+        private Dictionary<string, List<string>> synonymDictionary;
+        private Dictionary<string, string> commonTypos;
+        private List<string> conversationalPhrases;
+        private int nlpInteractionCount = 0; // Track how many times NLP helped understand user intent
+        private List<ActivityLogEntry> enhancedActivityLog = new List<ActivityLogEntry>();
+        private const int MAX_LOG_DISPLAY = 10; // Show last 10 actions by default
+
         public MainWindow()
         {
             InitializeComponent();
