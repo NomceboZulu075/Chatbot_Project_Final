@@ -1424,11 +1424,31 @@ namespace Chatbot_Project_FinalPart3
             AddToActivityLog($"Provided cybersecurity education on: {input}");
         }//end of handle cybersecurity education method
 
+        // Handle Enter key press in text box
+        private void user_question_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ask_question(sender, new RoutedEventArgs());
+            }
+        }
+
+        // Handle quiz button click 
+        private void start_quiz(object sender, RoutedEventArgs e)
+        {
+            if (isQuizActive)
+            {
+                AddChatbotResponse(" Quiz is already in progress! Answer the current question or type 'quit quiz' to stop.");
+                return;
+            }
+
+            StartQuiz();
 
 
 
 
 
 
-    }
+
+        }
 }
