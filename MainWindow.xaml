@@ -5,7 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chatbot_Project_FinalPart3"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Cybersecurity Awareness Chatbot 🛡️" Height="600" Width="800"  
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Background>
+        <LinearGradientBrush>
+            <GradientStop Color="#FF1a1a2e" Offset="0"/>
+            <GradientStop Color="#FF16213e" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+
     <Grid>
 
     </Grid>
