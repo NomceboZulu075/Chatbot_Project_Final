@@ -18,5 +18,53 @@
 
     <Grid>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Fun Header Section -->
+        <Border Grid.Row="0" Background="#FF0f3460" Margin="5" CornerRadius="10" Padding="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="🛡️" FontSize="24" Margin="0,0,10,0"/>
+                <TextBlock Text="CyberBot Status: " FontSize="16" Foreground="White" FontWeight="Bold"/>
+                <TextBlock x:Name="status_text" Text="Ready to help you spot cybersecurity threats!" FontSize="16" Foreground="#FF00ff88"/>
+                <TextBlock Text=" 🛡️" FontSize="24" Margin="10,0,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Chat/Task Display Area -->
+        <Border Grid.Row="1" Background="#FF1e1e2e" Margin="5" CornerRadius="8" BorderBrush="#FF6366f1" BorderThickness="2">
+            <ListView x:Name="show_chats" 
+                      Background="Transparent"
+                      Foreground="White"
+                      BorderThickness="0"
+                      Margin="5"
+                      MouseDoubleClick="show_chats_MouseDoubleClick"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto">
+            </ListView>
+        </Border>
+
+        <!-- Statistics Section -->
+        <Border Grid.Row="2" Background="#FF0f3460" Margin="5" CornerRadius="8" Padding="8">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text=" Tasks Completed/Total Tasks: " Foreground="White" FontWeight="Bold"/>
+                <TextBlock x:Name="completed_count" Text="0" Foreground="#FF00ff88" FontWeight="Bold"/>
+                <TextBlock Text="/" Foreground="White" FontWeight="Bold"/>
+                <TextBlock x:Name="total_count" Text="0" Foreground="#FF6366f1" FontWeight="Bold"/>
+
+                <TextBlock Text=" |   Security: " Foreground="White" FontWeight="Bold" Margin="20,0,0,0"/>
+                <TextBlock x:Name="security_score" Text="0%" Foreground="#FFffa500" FontWeight="Bold"/>
+
+                <TextBlock Text=" |  Quiz Best: " Foreground="White" FontWeight="Bold" Margin="20,0,0,0"/>
+                <TextBlock x:Name="quiz_best_score" Text="0%" Foreground="#FFff6b9d" FontWeight="Bold"/>
+
+                <TextBlock Text=" |  Quizzes: " Foreground="White" FontWeight="Bold" Margin="20,0,0,0"/>
+                <TextBlock x:Name="quiz_count" Text="0" Foreground="#FF9333ea" FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+
     </Grid>
 </Window>
