@@ -586,6 +586,62 @@ namespace Chatbot_Project_FinalPart3
             nlpInteractionCount++;
         }//end of process user input method
 
+        // A method to handle adding new tasks
+        private void HandleAddTask(string input)
+        {
+            // Getting the title of a task from user input and generating a task description about that task
+            string taskTitle = ExtractTaskTitle(input);
+            string taskDescription = GenerateTaskDescription(taskTitle);
+
+            // Create new task
+            var newTask = new taskInformation
+            {
+                Title = taskTitle,
+                Description = taskDescription,
+                IsCompleted = false,
+                CreatedDate = DateTime.Now
+            };
+
+            // Check if user wants a reminder
+            DateTime? reminderDate = ExtractReminderDate(input);
+            if (reminderDate.HasValue)
+            {
+                newTask.ReminderDate = reminderDate;
+            }
+
+            // Add task to the list
+            string reminderDetails = reminderDate.HasValue ? $"with reminder on {reminderDate.Value:MM/dd/yyyy}" : "without reminder";
+            AddToEnhancedActivityLog($"Task created: '{taskTitle}'", "TASK_ADDED", reminderDetails);
+
+            if (reminderDate.HasValue)
+            {
+                AddToEnhancedActivityLog($"Reminder set for task '{taskTitle}' on {reminderDate.Value:MM/dd/yyyy}", "REMINDER_SET", taskTitle);
+            }//end of if statement
+
+            // Refreshing display and update statistics
+            RefreshTaskDisplay();
+
+            // Provide response with emojis
+            string response = $"✅ Task added: '{taskTitle}' - {taskDescription}";
+            if (reminderDate.HasValue)
+            {
+                response += $" ⏰ Reminder set for {reminderDate.Value:MM/dd/yyyy}.";
+            }
+            else
+            {
+                response += " Would you like to set a reminder for this task?";
+            }
+
+            AddChatbotResponse(response);
+
+            // Fun encouragement based on task count
+            if (cyberTasks.Count == 1)
+                AddChatbotResponse(" Great start! Your first cybersecurity task is logged!");
+            else if (cyberTasks.Count == 5)
+                AddChatbotResponse(" You're on fire! 🔥 5 tasks and counting - security champion!");
+
+        }//end of method handle add task
+
 
 
 
