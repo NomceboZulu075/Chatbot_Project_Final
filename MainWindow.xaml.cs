@@ -1206,6 +1206,84 @@ namespace Chatbot_Project_FinalPart3
             return cyberKeywords.Any(keyword => input.Contains(keyword));
         }//end of cybersecurity keywords method
 
+        // Enhanced method to extract task details using improved NLP
+        private string ExtractTaskFromNaturalLanguage(string input)
+        {
+            string lowerInput = input.ToLower();
+
+            // Common cybersecurity task patterns with natural language understanding
+            if (lowerInput.Contains("password") || lowerInput.Contains("passwords"))
+                return "Update Password";
+            else if (lowerInput.Contains("2fa") || lowerInput.Contains("two-factor") ||
+                     lowerInput.Contains("two factor") || lowerInput.Contains("authentication"))
+                return "Enable Two-Factor Authentication";
+            else if (lowerInput.Contains("backup") || lowerInput.Contains("back up"))
+                return "Create Data Backup";
+            else if (lowerInput.Contains("privacy") || lowerInput.Contains("private"))
+                return "Review Privacy Settings";
+            else if (lowerInput.Contains("antivirus") || lowerInput.Contains("anti-virus") ||
+                     lowerInput.Contains("virus"))
+                return "Update Antivirus Software";
+            else if (lowerInput.Contains("firewall"))
+                return "Check Firewall Settings";
+            else if (lowerInput.Contains("update") || lowerInput.Contains("software"))
+                return "Install Software Updates";
+            else if (lowerInput.Contains("scan") || lowerInput.Contains("check"))
+                return "Security System Scan";
+            else
+            {
+                // Try to extract task from natural language patterns
+                // Look for patterns like "remind me to [action]" or "add task to [action]"
+                string[] patterns = {
+            "remind me to ", "add task to ", "create task to ", "need to ",
+            "should ", "must ", "have to ", "want to ", "going to "
+        };
+                foreach (string pattern in patterns)
+                {
+                    if (lowerInput.Contains(pattern))
+                    {
+                        int startIndex = lowerInput.IndexOf(pattern) + pattern.Length;
+                        if (startIndex < lowerInput.Length)
+                        {
+                            string extractedTask = lowerInput.Substring(startIndex);
+                            // Clean up and capitalize the extracted task
+                            return char.ToUpper(extractedTask[0]) + extractedTask.Substring(1).Trim();
+                        }
+                    }
+                }
+
+                return "General Cybersecurity Task";
+            }
+        }//end of extract task from NLP method
+
+        // Enhanced method to extract time expressions for reminders using NLP
+        private DateTime? ExtractTimeFromNaturalLanguage(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return null;
+
+            string lowerInput = input.ToLower();
+
+            // Basic time expression recognition
+            if (lowerInput.Contains("tomorrow"))
+                return DateTime.Now.AddDays(1);
+            else if (lowerInput.Contains("today"))
+                return DateTime.Now;
+            else if (lowerInput.Contains("next week"))
+                return DateTime.Now.AddDays(7);
+            else if (lowerInput.Contains("in 3 days") || lowerInput.Contains("3 days"))
+                return DateTime.Now.AddDays(3);
+            else if (lowerInput.Contains("in 5 days") || lowerInput.Contains("5 days"))
+                return DateTime.Now.AddDays(5);
+            else if (lowerInput.Contains("in a week") || lowerInput.Contains("1 week"))
+                return DateTime.Now.AddDays(7);
+            else if (lowerInput.Contains("in 2 weeks") || lowerInput.Contains("2 weeks"))
+                return DateTime.Now.AddDays(14);
+            else if (lowerInput.Contains("next month"))
+                return DateTime.Now.AddDays(30);
+
+            return null;
+        }//end of extract time from NLP method
+
 
 
 
