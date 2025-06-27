@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -133,9 +134,48 @@ namespace Chatbot_Project_FinalPart3
                 }
             };
 
+            // Synonym dictionary for cybersecurity terms
+            synonymDictionary = new Dictionary<string, List<string>>
+            {
+                ["password"] = new List<string> { "password", "passphrase", "login", "credentials", "pass" },
+                ["two-factor"] = new List<string> { "2fa", "two-factor", "two factor", "mfa", "multi-factor" },
+                ["phishing"] = new List<string> { "phishing", "scam", "fake email", "suspicious email", "fraud" },
+                ["backup"] = new List<string> { "backup", "back up", "save", "copy", "archive" },
+                ["antivirus"] = new List<string> { "antivirus", "anti-virus", "virus protection", "security software" },
+                ["firewall"] = new List<string> { "firewall", "fire wall", "network protection", "security barrier" },
+                ["update"] = new List<string> { "update", "upgrade", "patch", "install", "refresh" }
+            };
+
+            // Common typos dictionary and their corrections(fun feature!)
+            commonTypos = new Dictionary<string, string>
+            {
+                ["taks"] = "task",
+                ["psasword"] = "password",
+                ["phising"] = "phishing",
+                ["secruity"] = "security",
+                ["updat"] = "update",
+                ["quizz"] = "quiz",
+                ["helpp"] = "help",
+                ["shoow"] = "show"
+            };
+
+            // Conversational phrases for more natural interactions
+            conversationalPhrases = new List<string>
+            {
+                "I understand you want to",
+                "Let me help you with that!",
+                "Great idea! I can assist with",
+                "Perfect! Let's work on",
+                "Absolutely! I'll help you",
+                "Smart thinking! Let me"
+            };
+
+            AddToActivityLog("NLP System initialized with advanced understanding capabilities");
+        }//end of InitializeNLPComponents method
 
 
 
 
-        }
+
+    }
 }
