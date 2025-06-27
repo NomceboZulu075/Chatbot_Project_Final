@@ -543,6 +543,49 @@ namespace Chatbot_Project_FinalPart3
             show_chats.ScrollIntoView(show_chats.Items[show_chats.Items.Count - 1]);
         }//end of AddUserMessage method
 
+        //A method for when the user asks a question or gives a command
+        private void ask_question(object sender, RoutedEventArgs e)
+        {
+            string userInput = user_question.Text.Trim();
+
+            if (string.IsNullOrEmpty(userInput))
+            {
+                MessageBox.Show("Please enter a question or command!");
+                return;
+            }
+
+            // Add user message to chat
+            AddUserMessage(userInput);
+
+            // Clear input field
+            user_question.Text = "";
+
+            // Process the user input
+            ProcessUserInput(userInput);
+        }//end of ask_question method
+
+        // Main method to process user input with advanced natural language understanding
+        private void ProcessUserInput(string input)
+        {
+            string lowerInput = input.ToLower();
+
+            // Check if we're in quiz mode
+            if (isQuizActive)
+            {
+                HandleQuizAnswer(input);
+                return;
+            }
+
+            // Use NLP to detect user intent
+            string detectedIntent = DetectUserIntent(input);
+
+            // Handle the detected intent with natural language understanding
+            HandleNaturalLanguageResponse(detectedIntent, input);
+
+            // Increment NLP interaction count for tracking
+            nlpInteractionCount++;
+        }//end of process user input method
+
 
 
 
