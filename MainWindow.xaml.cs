@@ -434,6 +434,67 @@ namespace Chatbot_Project_FinalPart3
             };
         }//end of get category emoji method
 
+        // A helper method to get display name for category
+        private string GetCategoryDisplayName(string category)
+        {
+            return category switch
+            {
+                "TASK_ADDED" => "Tasks Added",
+                "TASK_COMPLETED" => "Tasks Completed",
+                "TASK_UPDATED" => "Tasks Updated",
+                "REMINDER_SET" => "Reminders Set",
+                "QUIZ_STARTED" => "Quizzes Started",
+                "QUIZ_COMPLETED" => "Quizzes Completed",
+                "NLP_INTERACTION" => "Natural Language Processing",
+                "CYBERSECURITY_EDUCATION" => "Cybersecurity Education",
+                "SYSTEM" => "System Activities",
+                _ => "Other Activities"
+            };
+        }//end of get category display name method
+
+        // When the task is double clicked on the list view
+        private void show_chats_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (show_chats.SelectedItem == null) return;
+
+            string selectedItem = show_chats.SelectedItem.ToString();
+
+            // Check if this is a task item (contains task information)
+            if (selectedItem.Contains("[PENDING]") || selectedItem.Contains("[COMPLETED]"))
+            {
+                // Find the corresponding task
+                var task = cyberTasks.FirstOrDefault(t => selectedItem.Equals(t.ToString()));
+
+                if (task != null)
+                {
+                    // Toggle completion status
+                    task.IsCompleted = !task.IsCompleted;
+                    string action = task.IsCompleted ? "completed" : "marked as pending";
+
+                    if (task.IsCompleted)
+                    {
+                        AddToEnhancedActivityLog($"Task completed: '{task.Title}'", "TASK_COMPLETED",
+                            $"Created: {task.CreatedDate:MM/dd/yyyy}");
+                    }
+                    else
+                    {
+                        AddToEnhancedActivityLog($"Task reopened: '{task.Title}'", "TASK_UPDATED", "Marked as pending again");
+                    }
+
+                    // Refresh the display
+                    RefreshTaskDisplay();
+
+                    // Add chatbot response
+                    string response = task.IsCompleted ?
+                        $"Amazing work! Task '{task.Title}' has been marked as completed. Keep up the good cybersecurity practices!" :
+                        $"Task '{task.Title}' has been marked as pending again. No worries, you've got this!";
+
+                    AddChatbotResponse(response);
+                }//end of inner if statement
+            }//end of other outer if statement
+        }//end of method showchatsMouseDoubleClick
+
+
 
 
 
