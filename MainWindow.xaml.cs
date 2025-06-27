@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -720,6 +721,102 @@ namespace Chatbot_Project_FinalPart3
 
             return null;
         }//end of extract reminder date method
+
+        // A method to handle showing all the tasks
+        private void HandleShowTasks()
+        {
+            if (cyberTasks.Count == 0)
+            {
+                AddChatbotResponse("You don't have any tasks yet. Would you like to add a cybersecurity task?");
+                return;
+            }
+
+            string response = "Here are your cybersecurity tasks:\n";
+            for (int i = 0; i < cyberTasks.Count; i++)
+            {
+                var task = cyberTasks[i];
+                string status = task.IsCompleted ? "✅ Completed" : "⏳ Pending";
+                string reminder = task.ReminderDate.HasValue ? $" (Reminder: {task.ReminderDate.Value:MM/dd/yyyy})" : "";
+                string taskDisplay = $"{i + 1}. {status} {task.Title} - {task.Description}{reminder}";
+                AddChatbotResponse(taskDisplay);
+            }
+
+            AddChatbotResponse(("💡 Tip: Double-click on any task above to mark it complete/incomplete!"));
+        }//end of handle show tasks method
+
+        // A method to handle deleting tasks
+        private void HandleDeleteTask(string input)
+        {
+            if (cyberTasks.Count == 0)
+            {
+                AddChatbotResponse("No tasks available to delete!");
+                return;
+            }
+
+            // Try to extract task number or title from input
+            string lowerInput = input.ToLower();
+
+            // Look for patterns like "delete task 1" or "remove task 2"
+            var match = Regex.Match(lowerInput, @"(?:delete|remove)\s+task\s+(\d+)");
+            if (match.Success)
+            {
+                int taskNumber = int.Parse(match.Groups[1].Value);
+                if (taskNumber >= 1 && taskNumber <= cyberTasks.Count)
+                {
+                    var taskToDelete = cyberTasks[taskNumber - 1];
+                    cyberTasks.RemoveAt(taskNumber - 1);
+                    AddToActivityLog($"Task deleted: '{taskToDelete.Title}'");
+                    RefreshTaskDisplay();
+                    AddChatbotResponse($"✅ Task '{taskToDelete.Title}' has been deleted!");
+                    return;
+                }
+            }
+
+            // If no specific task number, show instructions
+            AddChatbotResponse("To delete a task:");
+            AddChatbotResponse("• Type 'delete task [number]' (e.g., 'delete task 1')");
+            AddChatbotResponse("• Or double-click on a completed task in the list above to toggle it");
+            HandleShowTasks(); // Show current tasks with numbers
+
+        }//end of handle delete task method 
+
+        // Handle showing activity log
+        private void HandleShowActivityLog()
+        {
+            if (activityLog.Count == 0)
+            {
+                AddChatbotResponse("No recent activities to show.");
+                return;
+            }
+
+            string response = "Here's your recent activity:\n";
+            for (int i = Math.Max(0, activityLog.Count - 5); i < activityLog.Count; i++)
+            {
+                response += $"• {activityLog[i]}\n";
+            }
+
+            AddChatbotResponse(response);
+        }//end of handle show activity log method
+
+        // A method to handle help command, this guides the user 
+        private void HandleHelp()
+        {
+            string helpText = " CyberBot Commands & Features:\n" +
+                            "• 'Add task [description]' - Add a new cybersecurity task\n" +
+                            "• 'Show tasks' - View all your tasks\n" +
+                            "• 'Start quiz' - Test your cybersecurity knowledge\n" +
+                            "• 'Show activity log' - View recent actions I've taken for you\n" +
+                            "• 'Show full log' - View complete activity history\n" +
+                            "• 'What have you done for me?' - Show summary of activities\n" +
+                            "• 'Quiz statistics' - View your quiz performance\n" +
+                            "• 'Activity log' - See recent actions\n" +
+                            "• Ask me about phishing, passwords, malware, etc.\n" +
+                            "• Double-click on tasks to mark them complete\n" +
+                            "• Ask me about cybersecurity topics for advice!";
+
+            AddChatbotResponse(helpText);
+        }//end of handle help method
+
 
 
 
