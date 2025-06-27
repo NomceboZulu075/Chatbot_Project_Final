@@ -619,6 +619,8 @@ namespace Chatbot_Project_FinalPart3
                 AddToEnhancedActivityLog($"Reminder set for task '{taskTitle}' on {reminderDate.Value:MM/dd/yyyy}", "REMINDER_SET", taskTitle);
             }//end of if statement
 
+            cyberTasks.Add(newTask);
+
             // Refreshing display and update statistics
             RefreshTaskDisplay();
 
