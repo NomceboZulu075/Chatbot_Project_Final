@@ -66,5 +66,54 @@
             </StackPanel>
         </Border>
 
+        <!-- Input Area -->
+        <Border Grid.Row="3" Background="#FF1e1e2e" Margin="5" CornerRadius="8" BorderBrush="#FF6366f1" BorderThickness="2">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="user_question" 
+                         Grid.Column="0"
+                         Height="35"
+                         Margin="0,0,10,0"
+                         KeyDown="user_question_KeyDown"
+                         VerticalContentAlignment="Center"
+                         Background="#FF2d2d44"
+                         Foreground="White"
+                         BorderBrush="#FF6366f1"
+                         BorderThickness="1"
+                         Padding="10,5"
+                         FontSize="14"/>
+
+                <Button x:Name="send_button"
+                        Grid.Column="1"
+                        Content="Send"
+                        Width="90"
+                        Height="35"
+                        Margin="0,0,10,0"
+                        Click="ask_question"
+                        Background="DarkSlateBlue"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontWeight="Bold"
+                        Cursor="Hand"/>
+
+                <Button x:Name="quiz_button"
+                        Grid.Column="2"
+                        Content="Quiz"
+                        Width="80"
+                        Height="35"
+                        Click="start_quiz"
+                        Background="Green" 
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontWeight="Bold"
+                        Cursor="Hand"/>
+            </Grid>
+        </Border>
+
     </Grid>
 </Window>
