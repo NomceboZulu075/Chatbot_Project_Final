@@ -1069,6 +1069,61 @@ namespace Chatbot_Project_FinalPart3
             AddToActivityLog($"Responded to query about: {input}");
         }//end of handle general query method
 
+        // A method to better understand user intent through keyword detection and pattern matching
+        private string DetectUserIntent(string input)
+        {
+            string lowerInput = input.ToLower();
+
+            if (lowerInput.Contains("show activity log") || lowerInput.Contains("activity log") ||
+            lowerInput.Contains("what have you done") || lowerInput.Contains("show log") ||
+            lowerInput.Contains("recent actions") || lowerInput.Contains("what did you do") ||
+            lowerInput.Contains("activity history") || lowerInput.Contains("log history"))
+                return "SHOW_ACTIVITY_LOG";
+
+            if (lowerInput.Contains("show full log") || lowerInput.Contains("complete log") ||
+                lowerInput.Contains("full activity") || lowerInput.Contains("all activities"))
+                return "SHOW_FULL_LOG";
+
+            // Check for quit quiz 
+            if (lowerInput.Contains("quit quiz") || lowerInput.Contains("stop quiz") ||
+                lowerInput.Contains("exit quiz") || lowerInput.Contains("end quiz") ||
+                lowerInput.Contains("cancel quiz") || lowerInput.Contains("abort quiz"))
+                return "QUIT_QUIZ"; ;
+
+            // Task-related intent detection with natural language variations
+            if (ContainsTaskKeywords(lowerInput))
+            {
+                if (ContainsReminderKeywords(lowerInput))
+                    return "ADD_TASK_WITH_REMINDER";
+                else
+                    return "ADD_TASK";
+            }
+
+            // Quiz-related intent detection
+            if (ContainsQuizKeywords(lowerInput))
+                return "START_QUIZ";
+
+            // Task viewing intent detection
+            if (ContainsViewTaskKeywords(lowerInput))
+                return "VIEW_TASKS";
+
+            // Activity/summary intent detection
+            if (ContainsSummaryKeywords(lowerInput))
+                return "SHOW_SUMMARY";
+
+            // Help intent detection
+            if (ContainsHelpKeywords(lowerInput))
+                return "HELP";
+
+            // Cybersecurity topic detection
+            if (ContainsCyberSecurityKeywords(lowerInput))
+                return "CYBERSECURITY_QUERY";
+
+            return "GENERAL_QUERY";
+
+
+        }//end of detect user intent method
+
 
 
 
