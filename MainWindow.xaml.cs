@@ -1124,6 +1124,88 @@ namespace Chatbot_Project_FinalPart3
 
         }//end of detect user intent method
 
+        // NLP helper method to detect task-related keywords in natural language
+        private bool ContainsTaskKeywords(string input)
+        {
+            string[] taskKeywords = {
+        "add task", "create task", "new task", "make task", "set task",
+        "add reminder", "set reminder", "create reminder", "remind me",
+        "schedule", "todo", "to do", "task for", "help me remember",
+        "don't forget", "need to", "should", "must", "have to"
+            };
+
+            return taskKeywords.Any(keyword => input.Contains(keyword));
+        }//end of contains task keywords method
+
+        // NLP helper method to detect reminder-specific keywords
+        private bool ContainsReminderKeywords(string input)
+        {
+            string[] reminderKeywords = {
+        "remind me", "reminder", "tomorrow", "next week", "in", "days",
+        "schedule", "later", "don't forget", "alert me", "notify me"
+            };
+
+            return reminderKeywords.Any(keyword => input.Contains(keyword));
+        }//end of contains reminder keywords method
+
+        // NLP helper method to detect quiz-related keywords
+        private bool ContainsQuizKeywords(string input)
+        {
+            string[] quizKeywords = {
+        "quiz", "test", "questions", "challenge", "exam", "assessment",
+        "knowledge", "check my", "how much do i know", "test me"
+            };
+
+            return quizKeywords.Any(keyword => input.Contains(keyword));
+        }//end of contains quiz keywords method
+
+        // NLP helper method to detect task viewing keywords
+        private bool ContainsViewTaskKeywords(string input)
+        {
+            string[] viewKeywords = {
+        "show tasks", "view tasks", "list tasks", "my tasks", "what tasks",
+        "see tasks", "display tasks", "current tasks", "pending tasks",
+        "what do i have", "what's on my list", "my list"
+            };
+
+            return viewKeywords.Any(keyword => input.Contains(keyword));
+        }//end of contains view task keywords method
+
+        // NLP helper method to detect summary/activity keywords
+        private bool ContainsSummaryKeywords(string input)
+        {
+            string[] summaryKeywords = {
+        "what have you done", "summary", "recent actions", "activity",
+        "what did you do", "show log", "history", "what happened",
+        "recent activity", "what's been done", "progress", "updates"
+            };
+
+            return summaryKeywords.Any(keyword => input.Contains(keyword));
+        }//end of contains summary keywords
+
+        // NLP helper method to detect help-related keywords
+        private bool ContainsHelpKeywords(string input)
+        {
+            string[] helpKeywords = {
+        "help", "commands", "what can you do", "how do i", "instructions",
+        "guide", "assist", "support", "how to", "explain"
+            };
+
+            return helpKeywords.Any(keyword => input.Contains(keyword));
+        }//end of contains help keywords method
+
+        // NLP helper method to detect cybersecurity topic keywords
+        private bool ContainsCyberSecurityKeywords(string input)
+        {
+            string[] cyberKeywords = {
+        "phishing", "password", "malware", "virus", "security", "hack",
+        "breach", "firewall", "antivirus", "2fa", "two-factor", "encryption",
+        "privacy", "social engineering", "scam", "threat", "attack", "safe"
+            };
+
+            return cyberKeywords.Any(keyword => input.Contains(keyword));
+        }//end of cybersecurity keywords method
+
 
 
 
