@@ -173,6 +173,116 @@ namespace Chatbot_Project_FinalPart3
             AddToActivityLog("NLP System initialized with advanced understanding capabilities");
         }//end of InitializeNLPComponents method
 
+        //A method to show a fun welcome message
+        private void ShowWelcomeMessage()
+        {
+            AddChatbotResponse(" Welcome to the South African Awareness CyberSecurity Awareness Chatbot! 🛡️ ");
+            AddChatbotResponse(" Here to help you stop phishing emails, craft uncrackable passwords and brown the web like a pro!");
+            AddChatbotResponse(" Try saying things like:");
+            AddChatbotResponse("   • 'Add task'");
+            AddChatbotResponse("   • 'Show tasks'");
+            AddChatbotResponse("   • 'Can you remind me to update my password?'");
+            AddChatbotResponse("   • 'I need to enable 2FA tomorrow'");
+            AddChatbotResponse("   • 'What have you been doing for me?'");
+            AddChatbotResponse(" Type 'help' for commands or just ask me about cybersecurity! ✨");
+        }//end of show welcome message
+
+        // Initialize quiz questions
+        private void InitializeQuizQuestions()
+        {
+            quizQuestions = new List<QuizQuestion>
+            {
+
+                new QuizQuestion
+                {
+                    Question = "What should you do if you receive an email asking for your password?",
+                    Options = new List<string> { "Reply with your password", "Delete the email", "Report the email as phishing", "Ignore it" },
+                    CorrectAnswer = 2,
+                    Explanation = "✅ Correct! Reporting phishing emails helps prevent scams and protects others!",
+                    IsTrueFalse = false
+                },
+
+                new QuizQuestion
+                {
+                    Question = "A strong password should be at least 12 characters long.",
+                    Options = new List<string> { "True", "False" },
+                    CorrectAnswer = 0,
+                    Explanation = "✅ True! Security experts recommend passwords of at least 12 characters for better protection!",
+                    IsTrueFalse = true
+                },
+
+                new QuizQuestion
+                {
+                    Question = "What is two-factor authentication (2FA)?",
+                    Options = new List<string> { "Using two passwords", "An extra security step beyond password", "A type of antivirus", "A password manager" },
+                    CorrectAnswer = 1,
+                    Explanation = "✅ Exactly! 2FA adds an extra layer of security, like a text code or app notification!",
+                    IsTrueFalse = false
+                },
+
+                new QuizQuestion
+                {
+                    Question = "It's safe to use public Wi-Fi for online banking.",
+                    Options = new List<string> { "True", "False" },
+                    CorrectAnswer = 1,
+                    Explanation = "✅ False! Public Wi-Fi is not secure. Avoid sensitive activities like banking on public networks!",
+                    IsTrueFalse = true
+                },
+
+                new QuizQuestion
+                {
+                    Question = "What is social engineering in cybersecurity?",
+                    Options = new List<string> { "Building social media", "Manipulating people to reveal information", "Engineering software", "Creating social networks" },
+                    CorrectAnswer = 1,
+                    Explanation = "✅ Correct! Social engineering tricks people into giving away confidential information!",
+                    IsTrueFalse = false
+                },
+
+                new QuizQuestion
+                {
+                    Question = "You should update your software regularly for security.",
+                    Options = new List<string> { "True", "False" },
+                    CorrectAnswer = 0,
+                    Explanation = "✅ True! Software updates often include important security patches that protect against new threats!",
+                    IsTrueFalse = true
+                },
+
+                new QuizQuestion
+                {
+                    Question = "What does 'HTTPS' indicate on a website?",
+                    Options = new List<string> { "High Traffic Protocol", "Secure encrypted connection", "Hypertext Transfer", "Nothing important" },
+                    CorrectAnswer = 1,
+                    Explanation = "✅ Right! HTTPS means the connection is encrypted and more secure than HTTP!",
+                    IsTrueFalse = false
+                },
+
+                new QuizQuestion
+                {
+                    Question = "It's okay to click on links in suspicious emails to see what they are.",
+                    Options = new List<string> { "True", "False" },
+                    CorrectAnswer = 1,
+                    Explanation = "✅ False! Never click suspicious links - they could download malware or steal your information!",
+                    IsTrueFalse = true
+                },
+
+                new QuizQuestion
+                {
+                    Question = "What should you do if your device gets infected with malware?",
+                    Options = new List<string> { "Ignore it", "Disconnect from internet and scan", "Share your files quickly", "Keep using it normally" },
+                    CorrectAnswer = 1,
+                    Explanation = "✅ Correct! Disconnect immediately and run a full antivirus scan to prevent further damage!",
+                    IsTrueFalse = false
+                },
+                new QuizQuestion
+                {
+                    Question = "Using the same password for multiple accounts is convenient and safe.",
+                    Options = new List<string> { "True", "False" },
+                    CorrectAnswer = 1,
+                    Explanation = "✅ False! If one account gets hacked, all your accounts become vulnerable. Use unique passwords!",
+                    IsTrueFalse = true
+                }
+            };
+        }//end of initialize quiz questions method
 
 
 
