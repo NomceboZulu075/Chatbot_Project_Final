@@ -1332,6 +1332,98 @@ namespace Chatbot_Project_FinalPart3
             }
         }//end of handle natural language response method
 
+        // Enhanced method to handle natural task addition with improved understanding
+        private void HandleNaturalTaskAddition(string input, bool includeReminder)
+        {
+            string taskTitle = ExtractTaskFromNaturalLanguage(input);
+            string taskDescription = GenerateTaskDescription(taskTitle);
+
+            var newTask = new taskInformation
+            {
+                Title = taskTitle,
+                Description = taskDescription,
+                IsCompleted = false,
+                CreatedDate = DateTime.Now
+            };
+
+            // Handle reminder extraction if needed
+            if (includeReminder)
+            {
+                DateTime? reminderDate = ExtractTimeFromNaturalLanguage(input);
+                if (reminderDate.HasValue)
+                {
+                    newTask.ReminderDate = reminderDate;
+                }
+            }
+
+            cyberTasks.Add(newTask);
+            AddToActivityLog($"Task added via natural language: '{taskTitle}'");
+            RefreshTaskDisplay();
+
+            // Provide natural language response
+            string response = $"✅ I've added the task '{taskTitle}' to your cybersecurity checklist!";
+            if (newTask.ReminderDate.HasValue)
+            {
+                response += $" ⏰ I'll remind you about this on {newTask.ReminderDate.Value:MM/dd/yyyy}.";
+            }
+            else if (includeReminder)
+            {
+                response += " Would you like me to set a reminder for this task?";
+            }
+
+            AddChatbotResponse(response);
+
+            // Add encouraging natural language responses
+            string[] encouragements = {
+        "Great choice for staying secure! 🛡️",
+        "You're taking great steps towards better cybersecurity! 💪",
+        "Smart thinking! This will help keep you safe online! 🌟",
+        "Excellent cybersecurity habit! Keep it up! 🚀"
+            };
+
+            var random = new Random();
+            AddChatbotResponse(encouragements[random.Next(encouragements.Length)]);
+        }//end of handle natural task addition
+
+        // Enhanced method to handle cybersecurity education with better topic recognition
+        private void HandleCyberSecurityEducation(string input)
+        {
+            string lowerInput = input.ToLower();
+
+            if (lowerInput.Contains("phishing") || lowerInput.Contains("scam") || lowerInput.Contains("fake email"))
+            {
+                AddChatbotResponse(" Phishing attacks are like digital fishing - criminals cast out fake emails hoping someone will 'bite'!");
+                AddChatbotResponse("🛡️ Protection tips: Always verify sender identity, check URLs carefully, and never share personal info via email!");
+            }
+            else if (lowerInput.Contains("password") || lowerInput.Contains("passwords"))
+            {
+                AddChatbotResponse(" Strong passwords are your first line of defense!");
+                AddChatbotResponse("🔐 Best practices: Use 12+ characters, mix letters/numbers/symbols, and never reuse passwords across sites!");
+            }
+            else if (lowerInput.Contains("malware") || lowerInput.Contains("virus") || lowerInput.Contains("trojan"))
+            {
+                AddChatbotResponse(" Malware is malicious software designed to harm or spy on your system!");
+                AddChatbotResponse("🛡️ Stay protected: Keep antivirus updated, avoid suspicious downloads, and scan regularly!");
+            }
+            else if (lowerInput.Contains("2fa") || lowerInput.Contains("two-factor") || lowerInput.Contains("authentication"))
+            {
+                AddChatbotResponse(" Two-Factor Authentication adds an extra security layer beyond just passwords!");
+                AddChatbotResponse("🔐 It's like having two locks on your door - much safer than just one!");
+            }
+            else if (lowerInput.Contains("social engineering"))
+            {
+                AddChatbotResponse(" Social engineering manipulates human psychology rather than technology!");
+                AddChatbotResponse("🧠 Defense: Be skeptical of unsolicited requests, verify identities, and trust your instincts!");
+            }
+            else
+            {
+                AddChatbotResponse("I'm here to help with cybersecurity topics! Feel free to ask about passwords, phishing, malware, or any other security concerns.");
+                AddChatbotResponse("💡 You can also say things like 'remind me to update my password' or 'add a task to check my privacy settings'!");
+            }
+
+            AddToActivityLog($"Provided cybersecurity education on: {input}");
+        }//end of handle cybersecurity education method
+
 
 
 
