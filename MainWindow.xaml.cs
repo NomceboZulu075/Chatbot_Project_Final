@@ -818,6 +818,65 @@ namespace Chatbot_Project_FinalPart3
         }//end of handle help method
 
 
+        // Quiz System Methods
+
+        // Start the cybersecurity quiz
+        private void StartQuiz()
+        {
+            if (quizQuestions.Count == 0)
+            {
+                AddChatbotResponse("❌ Sorry, no quiz questions available!");
+                return;
+            }
+
+            isQuizActive = true;
+            currentQuestionIndex = 0;
+            quizScore = 0;
+            totalQuizzesTaken++;
+
+            // Shuffle questions for variety
+            var random = new Random();
+            quizQuestions = quizQuestions.OrderBy(x => random.Next()).ToList();
+
+            AddToActivityLog("Quiz started");
+            AddChatbotResponse(" Welcome to the Cybersecurity Knowledge Quiz! ");
+            AddChatbotResponse("📝 Answer questions by typing the number (1, 2, 3, 4) or 'A', 'B', 'C', 'D'");
+            AddChatbotResponse("⚡ For True/False questions, type '1' for True or '2' for False");
+            AddChatbotResponse(" Let's begin! Good luck! 🍀");
+
+            ShowCurrentQuestion();
+        }//end of start quiz method
+
+        // Display current quiz question
+        private void ShowCurrentQuestion()
+        {
+            if (currentQuestionIndex >= quizQuestions.Count)
+            {
+                EndQuiz();
+                return;
+            }//end of if statement
+
+            var question = quizQuestions[currentQuestionIndex];
+            string questionText = $"❓ Question {currentQuestionIndex + 1}/{quizQuestions.Count}:\n{question.Question}";
+
+            AddChatbotResponse(questionText);
+
+            // Show options
+            if (question.IsTrueFalse)
+            {
+                AddChatbotResponse("1️⃣ True\n2️⃣ False");
+            }
+            else
+            {
+                for (int i = 0; i < question.Options.Count; i++)
+                {
+                    string emoji = new string[] { "1️⃣", "2️⃣", "3️⃣", "4️⃣" }[i];
+                    AddChatbotResponse($"{emoji} {question.Options[i]}");
+                }
+            }
+        }//end of show current question method
+
+
 
 
 
