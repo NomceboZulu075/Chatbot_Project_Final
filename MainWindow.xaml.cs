@@ -284,6 +284,48 @@ namespace Chatbot_Project_FinalPart3
             };
         }//end of initialize quiz questions method
 
+        //A method to update the fun statistics display
+        private void UpdateStatistics()
+        {
+            int completedTasks = cyberTasks.Count(i => i.IsCompleted);
+            int totalTasks = cyberTasks.Count;
+            int securityScore = totalTasks > 0 ? (completedTasks * 100) / totalTasks : 0;
+
+            completed_count.Text = completedTasks.ToString();
+            total_count.Text = totalTasks.ToString();
+            security_score.Text = securityScore + "%";
+
+            // Update quiz stats
+            quiz_best_score.Text = bestScore + "%";
+            quiz_count.Text = totalQuizzesTaken.ToString();
+
+            // Update status based on score
+            if (securityScore >= 80)
+                status_text.Text = "🌟 Security Expert!";
+            else if (securityScore >= 60)
+                status_text.Text = "🔒 Getting Secure!";
+            else if (securityScore >= 40)
+                status_text.Text = "⚠️ Needs Work";
+            else if (totalTasks > 0)
+                status_text.Text = "🆘 Security Risk!";
+            else
+                status_text.Text = "I am ready to help!";
+
+        }//end of update statistics method
+
+        //A method to add entries to the activity log
+        private void AddToActivityLog(string action)
+        {
+            string timestamp = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            activityLog.Add($"{timestamp}: {action}");
+
+            // Keep only last 15 entries
+            if (activityLog.Count > 15)
+            {
+                activityLog.RemoveAt(0);
+            }//end of if statement
+        }//end of add activity log method
+
 
 
 
