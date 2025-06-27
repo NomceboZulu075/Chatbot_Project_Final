@@ -494,6 +494,55 @@ namespace Chatbot_Project_FinalPart3
             }//end of other outer if statement
         }//end of method showchatsMouseDoubleClick
 
+        //A method to refresh task display in ListView
+        private void RefreshTaskDisplay()
+        {
+            // Clear current display
+            var chatItems = show_chats.Items.Cast<string>().Where(item =>
+                !item.Contains("[PENDING]") && !item.Contains("[COMPLETED]")).ToList();
+
+            show_chats.Items.Clear();
+
+            // Add back non-task chat items
+            foreach (var item in chatItems)
+            {
+                show_chats.Items.Add(item);
+            }
+
+            // Add all tasks
+            foreach (var task in cyberTasks)
+            {
+                show_chats.Items.Add(task.ToString());
+            }
+
+            // Update stats after refreshing
+            UpdateStatistics();
+
+            // Auto scroll to bottom
+            if (show_chats.Items.Count > 0)
+            {
+                show_chats.ScrollIntoView(show_chats.Items[show_chats.Items.Count - 1]);
+            }
+        }//end of RefreshTaskDisplay method
+
+        //A method to add chatbot responses
+        private void AddChatbotResponse(string response)
+        {
+            DateTime now = DateTime.Now;
+            string timestamp = now.ToString("yyyy-MM-dd HH:mm");
+            show_chats.Items.Add($"Chatbot [{timestamp}]: {response}");
+            show_chats.ScrollIntoView(show_chats.Items[show_chats.Items.Count - 1]);
+        }//end of AddChatbotResponse method
+
+        // Method to add user messages
+        private void AddUserMessage(string message)
+        {
+            DateTime now = DateTime.Now;
+            string timestamp = now.ToString("yyyy-MM-dd HH:mm");
+            show_chats.Items.Add($" 👤 User [{timestamp}]: {message}");
+            show_chats.ScrollIntoView(show_chats.Items[show_chats.Items.Count - 1]);
+        }//end of AddUserMessage method
+
 
 
 
