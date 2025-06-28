@@ -2,7 +2,9 @@
 
 A GUI-based chatbot that educates users about cybersecurity through task management, interactive quizzes, and natural language processing (NLP) simulations.
 
-![Chatbot Demo Screenshot](/screenshots/demo.png)
+![Screenshot 2025-06-28 020715](https://github.com/user-attachments/assets/55083132-24bb-441e-87b5-86b28d326164)
+
+)
 
 ## ✨ Features
 
